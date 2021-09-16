@@ -2078,7 +2078,12 @@
             _.$slideTrack.width(Math.ceil((_.slideWidth * _.$slideTrack.children('.slick-slide').length)));
 
         } else if (_.options.variableWidth === true) {
-            _.$slideTrack.width(5000 * _.slideCount);
+            var calc = 0;
+            _.$slides.each(function(_, element) {
+                var styles = window.getComputedStyle(element);
+                var marginLeftRight = parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
+                calc = calc + element.offsetWidth + marginLeftRight + 1; // +1 for decimal values caught by browser.
+            });
         } else {
             _.slideWidth = Math.ceil(_.listWidth);
             _.$slideTrack.height(Math.ceil((_.$slides.first().outerHeight(true) * _.$slideTrack.children('.slick-slide').length)));
